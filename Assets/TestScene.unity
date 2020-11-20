@@ -216,7 +216,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &481507628
 GameObject:
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 537119207}
   - component: {fileID: 537119206}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -363,6 +363,7 @@ MonoBehaviour:
   jumpSpeed: 10
   accRate: 250
   decRate: -450
+  bullet: {fileID: 1322877804626832803, guid: 5aef9d1426fecb84c97c3251ffe8d4b4, type: 3}
 --- !u!4 &537119208
 Transform:
   m_ObjectHideFlags: 0
@@ -564,7 +565,7 @@ Transform:
   m_GameObject: {fileID: 922488869}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 15, y: -0.27, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.7484, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3

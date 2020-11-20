@@ -13,8 +13,9 @@ public class Player : MonoBehaviour
     float currentSpeed = 0.0f;
     float minSpeed = 0.0f;
     float boostSpeed;
-   
 
+    public GameObject bullet;
+   
     private CharacterController characterController;
     private Vector3 movement = new Vector3();
  
@@ -45,6 +46,11 @@ public class Player : MonoBehaviour
             movement += transform.right * boostSpeed * Time.deltaTime;
         }
 
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Shoot();
+        }
+
         if (characterController.isGrounded)
         {
             movement.y = -0.1f;
@@ -67,4 +73,8 @@ public class Player : MonoBehaviour
         characterController.Move(movement * Time.deltaTime);
     }
 
+    void Shoot()
+    {
+        Instantiate(bullet, transform.position + (transform.right * 1.2f), transform.rotation);
+    }
 }
