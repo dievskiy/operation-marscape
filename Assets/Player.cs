@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
 
     private CharacterController characterController;
     private Vector3 movement = new Vector3();
+
+    public Animator animator;
  
      // Start is called before the first frame update
        void Start()
@@ -47,11 +49,18 @@ public class Player : MonoBehaviour
 
         if (characterController.isGrounded)
         {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("jump"))
+            {
+                animator.Play("run");
+            }
+
             movement.y = -0.1f;
 
             if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
             {
                 movement.y = jumpSpeed;
+
+                animator.Play("jump");
             }
 
             if (Input.GetKey(KeyCode.DownArrow))
