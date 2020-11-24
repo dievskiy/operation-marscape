@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -18,11 +19,16 @@ public class Player : MonoBehaviour
    
     private CharacterController characterController;
     private Vector3 movement = new Vector3();
+
+    private Mineral mineral;
+    private ProgressBar mineralBar;
  
      // Start is called before the first frame update
        void Start()
     {
         characterController = GetComponent<CharacterController>();
+        mineral = gameObject.AddComponent<Mineral>();
+        mineralBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
     }
 
     // Update is called once per frame
@@ -77,4 +83,13 @@ public class Player : MonoBehaviour
     {
         Instantiate(bullet, transform.position + (transform.right * 1.2f), transform.rotation);
     }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(other.gameObject);
+        mineral.PickUpMineral();
+        Debug.Log(mineral.GetInventory());
+        mineralBar.Progress();
+    }
+
 }
