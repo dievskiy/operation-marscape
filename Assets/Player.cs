@@ -65,16 +65,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.P))
-        {
-            mineral.SaveScore();
-        }
-
-        if (Input.GetKey(KeyCode.R))
-        {
-            mineral.FetchInventory();
-        }
-
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, speed);
 
         movement.y += gravity * Time.deltaTime;
