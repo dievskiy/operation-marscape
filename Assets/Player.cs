@@ -22,6 +22,9 @@ public class Player : MonoBehaviour
 
     private Mineral mineral;
     private ProgressBar mineralBar;
+
+    private GameObject pauseMenuCanvas;
+    bool gamePaused=false;
  
      // Start is called before the first frame update
        void Start()
@@ -29,6 +32,7 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         mineral = gameObject.AddComponent<Mineral>();
         mineralBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
+        pauseMenuCanvas = GameObject.Find("PauseMenu");
     }
 
     // Update is called once per frame
@@ -57,6 +61,16 @@ public class Player : MonoBehaviour
             Shoot();
         }
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Pause();
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            Resume();
+        }
+
         if (characterController.isGrounded)
         {
             movement.y = -0.1f;
@@ -77,13 +91,35 @@ public class Player : MonoBehaviour
         movement.y += gravity * Time.deltaTime;
 
         characterController.Move(movement * Time.deltaTime);
+
+        if (gamePaused)
+        {
+            pauseMenuCanvas.SetActive(true);
+        }
+
+        if (!gamePaused)
+        {
+            pauseMenuCanvas.SetActive(false);
+        }
     }
 
     void Shoot()
     {
         Instantiate(bullet, transform.position + (transform.right * 1.2f), transform.rotation);
     }
-    
+
+    void Pause()
+    {
+        gamePaused = true;
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        gamePaused = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Destroy(other.gameObject);
