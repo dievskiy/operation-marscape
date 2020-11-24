@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -13,15 +14,19 @@ public class Player : MonoBehaviour
     float currentSpeed = 0.0f;
     float minSpeed = 0.0f;
     float boostSpeed;
-   
 
     private CharacterController characterController;
     private Vector3 movement = new Vector3();
+
+    private Mineral mineral;
+    private ProgressBar mineralBar;
  
      // Start is called before the first frame update
        void Start()
     {
         characterController = GetComponent<CharacterController>();
+        mineral = gameObject.AddComponent<Mineral>();
+        mineralBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
     }
 
     // Update is called once per frame
@@ -60,11 +65,29 @@ public class Player : MonoBehaviour
             }
         }
 
+        if (Input.GetKey(KeyCode.P))
+        {
+            mineral.SaveScore();
+        }
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            mineral.FetchInventory();
+        }
+
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, speed);
 
         movement.y += gravity * Time.deltaTime;
 
         characterController.Move(movement * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(other.gameObject);
+        mineral.PickUpMineral();
+        Debug.Log(mineral.GetInventory());
+        mineralBar.Progress();
     }
 
 }
