@@ -1,17 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject pauseMenuCanvas;
-    public static bool gamePaused=false;
-    // Start is called before the first frame update
 
-    // Update is called once per frame
+    //Public variables for activating the different menus
+
+    public GameObject pauseMenuCanvas;
+    public GameObject deathMenuCanvas;
+
+    //Bool variable for configuring wether or not the game is paused
+    public static bool gamePaused=false;
+
+    private Mineral mineral;
+
+    private TextMesh scoreText;
+
+    void Start()
+    {
+        mineral = gameObject.AddComponent<Mineral>();
+        scoreText = GameObject.Find("DeathScoreText").GetComponent<TextMesh>();
+        scoreText.text = "juu";
+    }
+
     void Update()
     {
+        
+        //scoreText.text = "Hello saatana";
+        //Setting ESC and P-keys to trigger pause screen
+
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P)) 
         {
             if (gamePaused)
@@ -22,7 +43,20 @@ public class GameController : MonoBehaviour
                 Pause();
             }
         }
+
+        //Setting L-key to trigger Deathscreen (placeholder)
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            DeathScreen();
+
+            /*float score = mineral.GetInventory();
+            scoreText.text += "t";*/
+        }
+
     }
+
+    //Method for pausing the game and activating the PauseMenuCanvas
 
     void Pause()
     {
@@ -31,6 +65,8 @@ public class GameController : MonoBehaviour
         gamePaused = true;
     }
 
+    //Method for deactivating the PauseMenuCanvas and continuing the game
+
     public void Continue()
     {
         pauseMenuCanvas.SetActive(false);
@@ -38,8 +74,28 @@ public class GameController : MonoBehaviour
         gamePaused = false;
     }
 
+    //Method for activating Deathscreen
+
+    void DeathScreen()
+    {
+        if (!gamePaused)
+        {
+            deathMenuCanvas.SetActive(true);
+            Time.timeScale = 0f;
+        }
+    }
+
+    //Method for going back to MainMenu
+
     public void LoadMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+
+    //Loads the level player has died on
+    public void LoadThisLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
