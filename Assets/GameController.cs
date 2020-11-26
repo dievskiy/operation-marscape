@@ -18,13 +18,13 @@ public class GameController : MonoBehaviour
 
     private Mineral mineral;
 
-    private TextMesh scoreText;
+    public TextMeshProUGUI scoreText;
 
     void Start()
     {
         mineral = gameObject.AddComponent<Mineral>();
-        scoreText = GameObject.Find("DeathScoreText").GetComponent<TextMesh>();
-        scoreText.text = "juu";
+        scoreText = GameObject.Find("DeathScoreText").GetComponent<TextMeshProUGUI>();
+
     }
 
     void Update()
@@ -50,8 +50,6 @@ public class GameController : MonoBehaviour
         {
             DeathScreen();
 
-            /*float score = mineral.GetInventory();
-            scoreText.text += "t";*/
         }
 
     }
@@ -81,6 +79,10 @@ public class GameController : MonoBehaviour
         if (!gamePaused)
         {
             deathMenuCanvas.SetActive(true);
+
+            float score = mineral.GetInventory();
+            scoreText.text = score + "t";
+
             Time.timeScale = 0f;
         }
     }
@@ -96,6 +98,7 @@ public class GameController : MonoBehaviour
     //Loads the level player has died on
     public void LoadThisLevel()
     {
+        Continue();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
