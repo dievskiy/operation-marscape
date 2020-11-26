@@ -43,7 +43,9 @@ public class Mineral : MonoBehaviour
         if (Inventory < MaxValue)
         {
             Inventory += Value;
+            GameController.current.mineralCount++;
         }
+
     }
 
     public float GetInventory()

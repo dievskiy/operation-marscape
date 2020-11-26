@@ -147,13 +147,13 @@ public class Player : MonoBehaviour
 
         Instantiate(bullet, bulletOrigin, transform.rotation);
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(other.gameObject);
         mineral.PickUpMineral();
         Debug.Log(mineral.GetInventory());
         mineralBar.Progress();
+        Destroy(other.gameObject);
     }
 
 }
