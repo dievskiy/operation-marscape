@@ -5,20 +5,31 @@ using UnityEngine;
 public class EnemyMovementController : MonoBehaviour
 {
 
-    public Vector3[] navigationPositions;
+    public Vector3 target;
+    private GameObject player;
     public float speed = 0.07f;
-    private int currentTarget; 
+    public bool isNearPlayer = false;
+    public float shootingRange = 10f;
+    
+
+    void Start()
+    {
+        player = GameObject.FindWithTag("Player");
+    }
 
 
     void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, navigationPositions[currentTarget], speed);
-
-        // when target position is reached, switch to another one
-        if (transform.position == navigationPositions[currentTarget])
+        target = player.transform.position;
+        // when enemy is in shooting range, stop moving and start shooting
+        if ((Mathf.Abs(transform.position.x - target.x)) < shootingRange)
         {
-            if (currentTarget < navigationPositions.Length - 1) currentTarget ++;
-            else currentTarget = 0;
+            isNearPlayer = true;
+        }
+        else
+        {
+            isNearPlayer = false;
+            transform.position = Vector3.MoveTowards(transform.position, target, speed);
         }
     }
 }

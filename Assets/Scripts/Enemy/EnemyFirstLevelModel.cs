@@ -6,15 +6,11 @@ public class EnemyFirstLevelModel : EnemyModel
 {
      public EnemyFirstLevelModel()
      {
-        hp = 100;
+        hp = 100f;
+        attackValue = 20f;
      }
 
     override public void AttackPlayer()
-    {
-        // todo
-    }
-
-    override public void Die()
     {
         // todo
     }
