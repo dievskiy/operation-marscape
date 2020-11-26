@@ -86,10 +86,10 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(other.gameObject);
         mineral.PickUpMineral();
         Debug.Log(mineral.GetInventory());
         mineralBar.Progress();
+        Destroy(other.gameObject);
     }
 
 }

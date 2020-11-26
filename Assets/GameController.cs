@@ -16,21 +16,22 @@ public class GameController : MonoBehaviour
     //Bool variable for configuring wether or not the game is paused
     public static bool gamePaused=false;
 
-    private Mineral mineral;
+
+    //private Mineral mineral;
+
+    public float mineralCount;
+    public static GameController current;
 
     public TextMeshProUGUI scoreText;
 
     void Start()
     {
-        mineral = gameObject.AddComponent<Mineral>();
-        scoreText = GameObject.Find("DeathScoreText").GetComponent<TextMeshProUGUI>();
-
+        current = this;
     }
 
     void Update()
     {
         
-        //scoreText.text = "Hello saatana";
         //Setting ESC and P-keys to trigger pause screen
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P)) 
@@ -80,8 +81,8 @@ public class GameController : MonoBehaviour
         {
             deathMenuCanvas.SetActive(true);
 
-            float score = mineral.GetInventory();
-            scoreText.text = score + "t";
+            scoreText.text = "Score : " + mineralCount.ToString() + " minerals";
+            //scoreText.text = minerals.ToString();
 
             Time.timeScale = 0f;
         }
