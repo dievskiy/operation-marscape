@@ -141,7 +141,7 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         shootAnimationTimer = 0;
-        animator.Play("shoot");
+        animator.Play("shoot", -1, 0);
 
         Vector3 bulletOrigin = transform.position + (transform.right * 1.25f) + (transform.up * 0.6f);
 
