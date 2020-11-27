@@ -31,6 +31,7 @@ public class EnemyFirstLevelController : MonoBehaviour
                 startShooting();
             }
         }
+
     }
 
     private void startShooting()
@@ -56,6 +57,12 @@ public class EnemyFirstLevelController : MonoBehaviour
 
     IEnumerator Die()
     {
+        // set all coliders to trigger after death so user can pass through it
+        Collider[] colList = transform.GetComponentsInChildren<Collider>();
+        foreach(Collider col in colList)
+        {
+            col.isTrigger = true;
+        }
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }

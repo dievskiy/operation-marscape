@@ -10,6 +10,7 @@ public class EnemyMovementController : MonoBehaviour
     public float speed = 0.07f;
     public bool isNearPlayer = false;
     public float shootingRange = 10f;
+    public float livingRange = 140f;
     
 
     void Start()
@@ -21,6 +22,12 @@ public class EnemyMovementController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // destroy enemy if it is far from player
+        if(Mathf.Abs(transform.position.x - player.transform.position.x) > livingRange)
+        {
+            Destroy(gameObject);
+        }
+
         transform.LookAt(player);
 
         target = player.position;
