@@ -10,7 +10,7 @@ public class EnemyFirstLevelController : MonoBehaviour
     private EnemyMovementController movementController;
     public GameObject bullet;
     private float lastShoot;
-    private float shootFrequency = 3f;
+    private float shootFrequency = 1f;
     private Animator anim;
     private bool isDying = false;
 
@@ -37,10 +37,9 @@ public class EnemyFirstLevelController : MonoBehaviour
     {
         anim.SetBool("isShooting", true);
         lastShoot = Time.time;
-        var bulletPos = transform.position;
-        // todo: create bullet spawn gameobject
-        bulletPos.y += .8f;
-        bulletPos.x += .8f;
+        // get position of current object's gun
+        var bulletPos = transform.GetChild(0).FindChild("Box001").transform.position;
+        bulletPos.y += 1.4f;
         Instantiate(bullet, bulletPos, Quaternion.identity);
         // stop animation programmatically because default animatoin consists of 3 shoots.
         StartCoroutine(StopAnim());
@@ -63,7 +62,8 @@ public class EnemyFirstLevelController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "PlayerBullet")
+        // should be tag comparison
+        if(other.gameObject.name.ToLower().Contains("bullet") && other.tag != "EnemyBullet")
         {
             isDying = true;
             anim.SetTrigger("Die");
