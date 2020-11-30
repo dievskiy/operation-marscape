@@ -4,23 +4,33 @@ using UnityEngine;
 
 public class EnemyMovementController : MonoBehaviour
 {
-
-    public Vector3 target;
-    private GameObject player;
+    private Vector3 target;
+    private Rigidbody rigidbody;
+    private Transform player;
     public float speed = 0.07f;
     public bool isNearPlayer = false;
     public float shootingRange = 10f;
+    public float livingRange = 140f;
     
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        rigidbody = GetComponent<Rigidbody>();
+        player = GameObject.Find("Player").transform;
     }
 
 
     void FixedUpdate()
     {
-        target = player.transform.position;
+        // destroy enemy if it is far from player
+        if(Mathf.Abs(transform.position.x - player.transform.position.x) > livingRange)
+        {
+            Destroy(gameObject);
+        }
+
+        transform.LookAt(player);
+
+        target = player.position;
         // when enemy is in shooting range, stop moving and start shooting
         if ((Mathf.Abs(transform.position.x - target.x)) < shootingRange)
         {
