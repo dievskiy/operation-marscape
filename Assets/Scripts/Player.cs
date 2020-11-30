@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     private Mineral mineral;
     private ProgressBar mineralBar;
 
+    float elapsed = 0f;
+
     enum PlayerAnimationState
     {
         RUN,
@@ -49,6 +51,12 @@ public class Player : MonoBehaviour
     void Update()
     {
         movement.x = currentSpeed * Time.deltaTime;
+
+        /*if (characterController.isGrounded)
+        {
+            
+        }*/
+
 
         if (currentSpeed < speed)
         {
@@ -73,6 +81,13 @@ public class Player : MonoBehaviour
 
         if (characterController.isGrounded)
         {
+            elapsed += Time.deltaTime;
+            if (elapsed >= 0.25f)
+            {
+                elapsed = elapsed % 0.25f;
+                RunSound();
+            }
+
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("jump"))
             {
                 animationState = PlayerAnimationState.RUN;
@@ -85,6 +100,8 @@ public class Player : MonoBehaviour
                 movement.y = jumpSpeed;
 
                 animationState = PlayerAnimationState.JUMP;
+
+                SoundManagerScript.PlaySound("jump");
             }
 
             if (Input.GetKey(KeyCode.DownArrow))
@@ -146,6 +163,14 @@ public class Player : MonoBehaviour
         Vector3 bulletOrigin = transform.position + (transform.right * 1.25f) + (transform.up * 0.6f);
 
         Instantiate(bullet, bulletOrigin, transform.rotation);
+
+        SoundManagerScript.PlaySound("lazerGun");
+    }
+
+    void RunSound()
+    {
+        int stepSoundRandom = Random.Range(1, 4);
+        SoundManagerScript.PlaySound("maxStep" + stepSoundRandom.ToString());
     }
 
     private void OnTriggerEnter(Collider other)
@@ -153,6 +178,8 @@ public class Player : MonoBehaviour
         mineral.PickUpMineral();
         Debug.Log(mineral.GetInventory());
         mineralBar.Progress();
+        SoundManagerScript.PlaySound("mineralCollect");
+
         if(other.tag != "Enemy")
             Destroy(other.gameObject);
     }
