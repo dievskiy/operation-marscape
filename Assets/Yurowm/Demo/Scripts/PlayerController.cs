@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// this class was inside alien 2nd level package 
 [RequireComponent (typeof (Animator))]
 public class PlayerController : MonoBehaviour {
 
