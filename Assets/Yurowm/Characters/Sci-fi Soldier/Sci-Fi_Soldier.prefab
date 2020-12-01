@@ -1598,8 +1598,8 @@ GameObject:
   - component: {fileID: 11400002}
   - component: {fileID: 2929172506463915838}
   - component: {fileID: 904315051161112142}
-  - component: {fileID: 1330291769780796078}
   - component: {fileID: 5964704921927019699}
+  - component: {fileID: 1882106991}
   m_Layer: 0
   m_Name: Sci-Fi_Soldier
   m_TagString: Enemy
@@ -1688,7 +1688,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 88
   m_CollisionDetection: 0
 --- !u!65 &904315051161112142
 BoxCollider:
@@ -1701,24 +1701,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.45, y: 1, z: 0.2}
+  m_Size: {x: 0.7, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0.45, z: 0}
---- !u!114 &1330291769780796078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1775a73d5472b45f6bc304554e992778, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {x: 0, y: 0, z: 0}
-  speed: 0.07
-  isNearPlayer: 0
-  shootingRange: 11
 --- !u!114 &5964704921927019699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1733,3 +1717,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 1322877804626832803, guid: 6c8f674c3ee83486ea528098f64816c6, type: 3}
   bulletPosition: {fileID: 400018}
+  speed: 0.07
+  isNearPlayer: 0
+  shootingRange: 10
+  livingRange: 140
+--- !u!65 &1882106991
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100096}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.45, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0.45, z: 0}

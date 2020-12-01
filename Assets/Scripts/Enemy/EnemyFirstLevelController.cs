@@ -39,7 +39,7 @@ public class EnemyFirstLevelController : MonoBehaviour
         anim.SetBool("isShooting", true);
         lastShoot = Time.time;
         // get position of current object's gun
-        var bulletPos = transform.GetChild(0).FindChild("Box001").transform.position;
+        var bulletPos = transform.GetChild(0).Find("Box001").transform.position;
         bulletPos.y += 1.4f;
         Instantiate(bullet, bulletPos, Quaternion.identity);
         // stop animation programmatically because default animatoin consists of 3 shoots.
