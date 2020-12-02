@@ -12,12 +12,11 @@ public class EnemyBullet : MonoBehaviour
 
     void Start()
     {
-        target = GameObject.FindWithTag("Player").transform;
+        target = GameObject.Find("Player").transform;
         direction = (target.position - transform.position).normalized;
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         // if the distance between camera and the bullet grows too big, remove the bullet
@@ -32,8 +31,7 @@ public class EnemyBullet : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // add bullet collision stuff here
-
-        Destroy(gameObject);
+        if (other.tag != "Enemy")
+            Destroy(gameObject);
     }
 }
