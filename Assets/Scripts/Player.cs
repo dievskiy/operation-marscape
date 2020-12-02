@@ -175,7 +175,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Sphere")
+        if (other.tag == "Collectable")
         {
             mineral.PickUpMineral();
             mineralBar.Progress();

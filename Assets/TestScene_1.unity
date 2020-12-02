@@ -1650,7 +1650,7 @@ GameObject:
   - component: {fileID: 312398502}
   m_Layer: 8
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4376,7 +4376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a774af0876dcd046bf733c1b0806c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1500
+  speed: 1000
   gravity: -15
   jumpSpeed: 10
   accRate: 250
