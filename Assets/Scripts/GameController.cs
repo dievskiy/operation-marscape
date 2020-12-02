@@ -8,25 +8,48 @@ using TMPro;
 public class GameController : MonoBehaviour
 {
 
+    public SceneController.SceneType nextLevel;
+
     //Public variables for activating the different menus
 
     public GameObject pauseMenuCanvas;
     public GameObject deathMenuCanvas;
+    public GameObject levelCompleteCanvas;
 
     //Bool variable for configuring wether or not the game is paused
     public static bool gamePaused=false;
 
 
     //private Mineral mineral;
-
+    public int mineralsInLevel;
     public float mineralCount;
     public static GameController current;
 
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI deathScoreText;
+
+    [Header("Victory screen")]
+    public TextMeshProUGUI victoryScoreText;
+    public TextMeshProUGUI mineralsCollectedText;
 
     void Start()
     {
         current = this;
+        mineralsInLevel = GameObject.FindGameObjectsWithTag("Collectable").Length;
+
+        // had some issues where finish level was visible when starting new game
+        // this should fix it
+        //
+        // it disables all the pause, death, and level complete screens on scene load
+        ResetLevel();
+
+    }
+
+    void ResetLevel()
+    {
+        gamePaused = false;
+        pauseMenuCanvas.SetActive(false);
+        deathMenuCanvas.SetActive(false);
+        levelCompleteCanvas.SetActive(false);
     }
 
     void Update()
@@ -75,17 +98,30 @@ public class GameController : MonoBehaviour
 
     //Method for activating Deathscreen
 
-    void DeathScreen()
+    public void DeathScreen()
     {
         if (!gamePaused)
         {
             deathMenuCanvas.SetActive(true);
 
-            scoreText.text = "Score : " + mineralCount.ToString() + " minerals";
+            deathScoreText.text = "Score : " + mineralCount.ToString() + " minerals";
             //scoreText.text = minerals.ToString();
 
             Time.timeScale = 0f;
         }
+    }
+
+    public void CompleteLevel()
+    {
+        levelCompleteCanvas.SetActive(true);
+
+        gamePaused = true;
+
+        victoryScoreText.text = "Score : " + mineralCount.ToString() + " minerals";
+        mineralsCollectedText.text = "MINERALS COLLECTED: " + mineralCount.ToString() + "/" + mineralsInLevel.ToString();
+        //scoreText.text = minerals.ToString();
+
+        Time.timeScale = 0f;
     }
 
     //Method for going back to MainMenu
@@ -101,5 +137,10 @@ public class GameController : MonoBehaviour
     {
         Continue();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneController.LoadScene(nextLevel);
     }
 }
