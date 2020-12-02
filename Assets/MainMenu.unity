@@ -717,7 +717,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: TestScene_1
+          m_StringArgument: IntroCutscene
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1203919117
@@ -1021,7 +1021,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PLAY
+  m_text: NEW GAME
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f73a3f90792d34cf3a81be8c9dd7df7c, type: 2}
   m_sharedMaterial: {fileID: -7812399626029745573, guid: f73a3f90792d34cf3a81be8c9dd7df7c, type: 2}
