@@ -175,10 +175,12 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        mineral.PickUpMineral();
-        Debug.Log(mineral.GetInventory());
-        mineralBar.Progress();
-        SoundManagerScript.PlaySound("mineralCollect");
+        if (other.gameObject.tag == "Sphere")
+        {
+            mineral.PickUpMineral();
+            mineralBar.Progress();
+            SoundManagerScript.PlaySound("mineralCollect");
+        }
 
         if(other.tag != "Enemy")
             Destroy(other.gameObject);
