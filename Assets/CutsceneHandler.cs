@@ -11,12 +11,21 @@ public class CutsceneHandler : MonoBehaviour
     void Start()
     {
         player = GetComponent<VideoPlayer>();
+        player.url = System.IO.Path.Combine(Application.streamingAssetsPath, "intro.m4v");
+        player.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ( (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)) || (player.time >= player.length))
+        if ( (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)))
+        {
+            SceneController.LoadScene(SceneController.SceneType.LEVEL_1);
+        }
+
+
+
+        if (player.length > 0 && player.time >= player.length - 1)
         {
             SceneController.LoadScene(SceneController.SceneType.LEVEL_1);
         }
