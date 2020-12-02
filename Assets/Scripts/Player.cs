@@ -186,4 +186,9 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
     }
 
+    public void Die()
+    {
+        GameController.current.DeathScreen();
+    }
+
 }

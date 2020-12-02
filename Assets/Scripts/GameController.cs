@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour
 
     //Method for activating Deathscreen
 
-    void DeathScreen()
+    public void DeathScreen()
     {
         if (!gamePaused)
         {
