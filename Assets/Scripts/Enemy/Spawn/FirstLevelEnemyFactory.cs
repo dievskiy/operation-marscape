@@ -6,27 +6,32 @@ using static EnemyFactory;
 public class FirstLevelEnemyFactory : MonoBehaviour, EnemyFactory
 {
     public GameObject enemy;
+    private GameObject[] spawnPoints;
 
     public void StartInstantiation(GameObject player)
     {
         if (!enemy) return;
-        StartCoroutine(CreateEnemy(player));
+        CreateEnemies(player);
     }
 
-    IEnumerator CreateEnemy(GameObject player)
+    private void CreateEnemies(GameObject player)
     {
-        yield return new WaitForSeconds(2f);
-        var pos = player.transform.position;
-        // define x position randomly
-        pos.x += Random.Range(10.0f, 30.0f);
-        Instantiate(enemy, pos, Quaternion.identity);
-        StartCoroutine(CreateEnemy(player));
+        // spawn enemies on predefined spawnObjects in scene
+        foreach(GameObject spawn in spawnPoints)
+        {
+            var pos = spawn.transform.position;
+            if (pos == null) return;
+            Instantiate(enemy, pos, Quaternion.identity);
+        }
+        
     }
-    // Start is called before the first frame update
+
     void Awake()
     {
         // find needed enemy prefab
         enemy = (GameObject)Resources.Load("prefabs/EnemyFirst", typeof(GameObject));
+        // find all spawnPoints. EnemySpawn tag is same for all levels
+        spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawn");
     }
 
 }
