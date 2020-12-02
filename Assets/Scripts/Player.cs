@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static PlayerModel;
 
 public class Player : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
     private ProgressBar mineralBar;
     private HpBar hpBar;
 
-    private float playerHp = 100;
+    private PlayerModel model = new PlayerModel();
     private float playerMaxHp = 100;
     public TextMeshProUGUI playerHpText;
 
@@ -52,18 +53,13 @@ public class Player : MonoBehaviour
         mineralBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
         hpBar = GameObject.Find("HpBar").GetComponent<HpBar>();
 
-        playerHpText.text = "Player HP: " + playerHp.ToString() + " / 100";
+        playerHpText.text = "Player HP: " + model.GetHp().ToString() + " / 100";
     }
 
     // Update is called once per frame
     void Update()
     {
         movement.x = currentSpeed * Time.deltaTime;
-
-        if (playerHp<=0)
-        {
-            //
-        }
 
         if (currentSpeed < speed)
         {
@@ -149,10 +145,7 @@ public class Player : MonoBehaviour
                 break;
         }
 
-        if (playerHp <= 0)
-        {
-            Die();
-        }
+       
     }
 
     void ResetAnimation()
@@ -194,11 +187,10 @@ public class Player : MonoBehaviour
             SoundManagerScript.PlaySound("mineralCollect");
             Destroy(other.gameObject);
 
-            if (playerHp < playerMaxHp)
+            if (model.GetHp() < playerMaxHp)
             {
                 hpBar.Progress();
-                playerHp += 25;
-                playerHpText.text = "Player HP: " + playerHp.ToString() + " / 100";
+                model.Heal(25);
             }
         }
 
@@ -207,8 +199,7 @@ public class Player : MonoBehaviour
             mineralBar.Regress();
             mineral.DropMineral();
             hpBar.Regress();
-            playerHp -= 25;
-            playerHpText.text = "Player HP: " + playerHp.ToString() + " / 100";
+            if(model.Damage(25) == 0) Die();
             Destroy(other.gameObject);
         }
 
@@ -218,12 +209,14 @@ public class Player : MonoBehaviour
             mineral.DropMineral();
             mineralBar.Regress();
             mineralBar.Regress();
-            playerHp -= 50;
-            playerHpText.text = "Player HP: " + playerHp.ToString() + " / 100";
+            if(model.Damage(50) == 0) Die();
             hpBar.Regress();
             hpBar.Regress();
             Destroy(other.gameObject);
         }
+        
+        playerHpText.text = "Player HP: " + model.GetHp().ToString() + " / 100";
+
     }
 
     public void Die()

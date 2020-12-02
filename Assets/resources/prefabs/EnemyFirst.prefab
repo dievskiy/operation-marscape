@@ -1145,7 +1145,7 @@ MonoBehaviour:
   speed: 0.07
   isNearPlayer: 0
   shootingRange: 10
-  livingRange: 140
+  movingRange: 20
 --- !u!65 &1219198966403423839
 BoxCollider:
   m_ObjectHideFlags: 0
