@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -23,10 +24,14 @@ public class Player : MonoBehaviour
     private float shootAnimationTimerMax = 0.25f;
     private float shootAnimationTimer = 0.25f;
 
-
     public Animator animator;
     private Mineral mineral;
     private ProgressBar mineralBar;
+    private HpBar hpBar;
+
+    private float playerHp = 100;
+    private float playerMaxHp = 100;
+    public TextMeshProUGUI playerHpText;
 
     float elapsed = 0f;
 
@@ -45,6 +50,9 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         mineral = gameObject.AddComponent<Mineral>();
         mineralBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
+        hpBar = GameObject.Find("HpBar").GetComponent<HpBar>();
+
+        playerHpText.text = "Player HP: " + playerHp.ToString() + " / 100";
     }
 
     // Update is called once per frame
@@ -52,11 +60,10 @@ public class Player : MonoBehaviour
     {
         movement.x = currentSpeed * Time.deltaTime;
 
-        /*if (characterController.isGrounded)
+        if (playerHp<=0)
         {
-            
-        }*/
-
+            //
+        }
 
         if (currentSpeed < speed)
         {
@@ -141,6 +148,11 @@ public class Player : MonoBehaviour
                 animator.Play("shoot");
                 break;
         }
+
+        if (playerHp <= 0)
+        {
+            Die();
+        }
     }
 
     void ResetAnimation()
@@ -175,15 +187,43 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Sphere")
+        if (other.tag =="Collectable")
         {
             mineral.PickUpMineral();
             mineralBar.Progress();
             SoundManagerScript.PlaySound("mineralCollect");
+            Destroy(other.gameObject);
+
+            if (playerHp < playerMaxHp)
+            {
+                hpBar.Progress();
+                playerHp += 25;
+                playerHpText.text = "Player HP: " + playerHp.ToString() + " / 100";
+            }
         }
 
-        if(other.tag != "Enemy")
+        if (other.tag == "EnemyBullet")
+        {
+            mineralBar.Regress();
+            mineral.DropMineral();
+            hpBar.Regress();
+            playerHp -= 25;
+            playerHpText.text = "Player HP: " + playerHp.ToString() + " / 100";
             Destroy(other.gameObject);
+        }
+
+        if (other.tag == "Enemy")
+        {
+            mineral.DropMineral();
+            mineral.DropMineral();
+            mineralBar.Regress();
+            mineralBar.Regress();
+            playerHp -= 50;
+            playerHpText.text = "Player HP: " + playerHp.ToString() + " / 100";
+            hpBar.Regress();
+            hpBar.Regress();
+            Destroy(other.gameObject);
+        }
     }
 
     public void Die()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProgressBar : MonoBehaviour
+public class HpBar : MonoBehaviour
 {
     private Slider slider;
 
@@ -13,7 +13,7 @@ public class ProgressBar : MonoBehaviour
     void Start()
     {
         slider = gameObject.GetComponent<Slider>();
-        slider.value = 0.0f;
+        slider.value = 1f;
     }
 
     // Update is called once per frame
@@ -26,7 +26,6 @@ public class ProgressBar : MonoBehaviour
     {
         slider.value += 0.25f;
         slider.value += FillSpeed * Time.deltaTime;
-        Debug.Log(slider.value);
     }
 
     public void Regress()

@@ -21,7 +21,12 @@ public class LevelContol : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GameController.current.CompleteLevel();
+        if (other.gameObject.tag == PLAYER_TAG)
+        {
+
+            GameController.current.CompleteLevel();
+
+        }
 
         //if(other.gameObject.tag == PLAYER_TAG) {
             //SceneController.LoadScene(SceneType.LEVEL_1);

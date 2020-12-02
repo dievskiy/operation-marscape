@@ -48,6 +48,17 @@ public class Mineral : MonoBehaviour
 
     }
 
+    public void DropMineral() {
+        if (Inventory > 0)
+        {
+            Inventory -= Value;
+            if (GameController.current.mineralCount > 0)
+            {
+                GameController.current.mineralCount--;
+            }
+        }
+    }
+
     public float GetInventory()
     {
         return Inventory;

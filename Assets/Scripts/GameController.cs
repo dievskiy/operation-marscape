@@ -115,6 +115,8 @@ public class GameController : MonoBehaviour
     {
         levelCompleteCanvas.SetActive(true);
 
+        gamePaused = true;
+
         victoryScoreText.text = "Score : " + mineralCount.ToString() + " minerals";
         mineralsCollectedText.text = "MINERALS COLLECTED: " + mineralCount.ToString() + "/" + mineralsInLevel.ToString();
         //scoreText.text = minerals.ToString();
