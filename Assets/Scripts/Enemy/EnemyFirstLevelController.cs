@@ -120,7 +120,7 @@ public class EnemyFirstLevelController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // should be tag comparison
-        if(other.gameObject.name.ToLower().Contains("bullet") && other.tag != "EnemyBullet")
+        if(!isDying && other.gameObject.name.ToLower().Contains("bullet") && other.tag != "EnemyBullet")
         {
             isDying = true;
             anim.SetTrigger("Die");
