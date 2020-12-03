@@ -21,6 +21,8 @@ public class EnemyFirstLevelController : MonoBehaviour
     // this is minimum position diff, whn enemy "activates" (starts moving)
     public float movingRange = 20f;
 
+    float elapsed = 0f;
+
     void Start()
     {
         model = new EnemyFirstLevelModel(); 
@@ -48,6 +50,14 @@ public class EnemyFirstLevelController : MonoBehaviour
         {
             isNearPlayer = false;
             transform.position = Vector3.MoveTowards(transform.position, target, speed);
+
+            // loop for playing alien step sounds every 0.25 seconds
+            elapsed += Time.deltaTime;
+            if (elapsed >= 0.25f)
+            {
+                elapsed = elapsed % 0.25f;
+                RunSound();
+            }
         }
     }
 
@@ -64,6 +74,13 @@ public class EnemyFirstLevelController : MonoBehaviour
 
     }
 
+    // runsound method for playing 3 different alien step sounds
+    void RunSound()
+    {
+        int stepSoundRandom = Random.Range(1, 4);
+        SoundManagerScript.PlaySound("alienStep" + stepSoundRandom.ToString());
+    }
+
     private void startShooting()
     {
         anim.SetBool("isShooting", true);
@@ -72,6 +89,7 @@ public class EnemyFirstLevelController : MonoBehaviour
         var bulletPos = transform.GetChild(0).Find("Box001").transform.position;
         bulletPos.y += 1.4f;
         Instantiate(bullet, bulletPos, Quaternion.identity);
+        SoundManagerScript.PlaySound("alienLazer");
         // stop animation programmatically because default animatoin consists of 3 shoots.
         StartCoroutine(StopAnim());
     }
@@ -94,6 +112,7 @@ public class EnemyFirstLevelController : MonoBehaviour
             col.isTrigger = true;
         }
         // let death anim finish
+        SoundManagerScript.PlaySound("alienDeath");
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }

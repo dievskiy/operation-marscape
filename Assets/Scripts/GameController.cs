@@ -62,7 +62,8 @@ public class GameController : MonoBehaviour
             if (gamePaused)
             {
                 Continue();
-            } else
+            }
+            else
             {
                 Pause();
             }
@@ -73,7 +74,6 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             DeathScreen();
-
         }
 
     }
@@ -85,6 +85,7 @@ public class GameController : MonoBehaviour
         pauseMenuCanvas.SetActive(true);
         Time.timeScale = 0f;
         gamePaused = true;
+        SoundManagerScript.StopMusic();
     }
 
     //Method for deactivating the PauseMenuCanvas and continuing the game
@@ -94,6 +95,7 @@ public class GameController : MonoBehaviour
         pauseMenuCanvas.SetActive(false);
         Time.timeScale = 1f;
         gamePaused = false;
+        SoundManagerScript.ContinueMusic();
     }
 
     //Method for activating Deathscreen
