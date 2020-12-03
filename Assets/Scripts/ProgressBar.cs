@@ -26,7 +26,6 @@ public class ProgressBar : MonoBehaviour
     {
         slider.value += 0.25f;
         slider.value += FillSpeed * Time.deltaTime;
-        Debug.Log(slider.value);
     }
 
     public void Regress()

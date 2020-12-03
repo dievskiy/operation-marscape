@@ -199,12 +199,14 @@ public class Player : MonoBehaviour
             mineralBar.Regress();
             mineral.DropMineral();
             hpBar.Regress();
-            if(model.Damage(25) == 0) Die();
+            SoundManagerScript.PlaySound("lazerHit");
+            if (model.Damage(25) == 0) Die();
             Destroy(other.gameObject);
         }
 
         if (other.tag == "Enemy")
         {
+            Debug.Log("auts");
             mineral.DropMineral();
             mineral.DropMineral();
             mineralBar.Regress();
@@ -221,6 +223,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
+        SoundManagerScript.PlaySound("maxDeath");
         GameController.current.DeathScreen();
     }
 
