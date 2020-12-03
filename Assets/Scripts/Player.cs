@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using static PlayerModel;
 
 public class Player : MonoBehaviour
 {
@@ -23,10 +25,16 @@ public class Player : MonoBehaviour
     private float shootAnimationTimerMax = 0.25f;
     private float shootAnimationTimer = 0.25f;
 
-
     public Animator animator;
     private Mineral mineral;
     private ProgressBar mineralBar;
+    private HpBar hpBar;
+
+    private PlayerModel model = new PlayerModel();
+    private float playerMaxHp = 100;
+    public TextMeshProUGUI playerHpText;
+
+    float elapsed = 0f;
 
     enum PlayerAnimationState
     {
@@ -43,6 +51,9 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         mineral = gameObject.AddComponent<Mineral>();
         mineralBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
+        hpBar = GameObject.Find("HpBar").GetComponent<HpBar>();
+
+        playerHpText.text = "Player HP: " + model.GetHp().ToString() + " / 100";
     }
 
     // Update is called once per frame
@@ -73,6 +84,13 @@ public class Player : MonoBehaviour
 
         if (characterController.isGrounded)
         {
+            elapsed += Time.deltaTime;
+            if (elapsed >= 0.25f)
+            {
+                elapsed = elapsed % 0.25f;
+                RunSound();
+            }
+
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("jump"))
             {
                 animationState = PlayerAnimationState.RUN;
@@ -85,6 +103,8 @@ public class Player : MonoBehaviour
                 movement.y = jumpSpeed;
 
                 animationState = PlayerAnimationState.JUMP;
+
+                SoundManagerScript.PlaySound("jump");
             }
 
             if (Input.GetKey(KeyCode.DownArrow))
@@ -124,6 +144,8 @@ public class Player : MonoBehaviour
                 animator.Play("shoot");
                 break;
         }
+
+       
     }
 
     void ResetAnimation()
@@ -146,15 +168,63 @@ public class Player : MonoBehaviour
         Vector3 bulletOrigin = transform.position + (transform.right * 1.25f) + (transform.up * 0.6f);
 
         Instantiate(bullet, bulletOrigin, transform.rotation);
+
+        SoundManagerScript.PlaySound("lazerGun");
+    }
+
+    void RunSound()
+    {
+        int stepSoundRandom = Random.Range(1, 4);
+        SoundManagerScript.PlaySound("maxStep" + stepSoundRandom.ToString());
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        mineral.PickUpMineral();
-        Debug.Log(mineral.GetInventory());
-        mineralBar.Progress();
-        // if(other.tag != "Enemy")
-            // Destroy(other.gameObject);
+        if (other.tag =="Collectable")
+        {
+            mineral.PickUpMineral();
+            mineralBar.Progress();
+            SoundManagerScript.PlaySound("mineralCollect");
+            Destroy(other.gameObject);
+
+            if (model.GetHp() < playerMaxHp)
+            {
+                hpBar.Progress();
+                model.Heal(25);
+            }
+        }
+
+        if (other.tag == "EnemyBullet")
+        {
+            mineralBar.Regress();
+            mineral.DropMineral();
+            hpBar.Regress();
+            SoundManagerScript.PlaySound("lazerHit");
+            if (model.Damage(25) == 0) Die();
+            Destroy(other.gameObject);
+        }
+
+        if (other.tag == "Enemy")
+        {
+            Debug.Log("auts");
+            mineral.DropMineral();
+            mineral.DropMineral();
+            mineralBar.Regress();
+            mineralBar.Regress();
+            if(model.Damage(50) == 0) Die();
+            hpBar.Regress();
+            hpBar.Regress();
+            Destroy(other.gameObject);
+        }
+        
+        playerHpText.text = "Player HP: " + model.GetHp().ToString() + " / 100";
+
+    }
+
+    public void Die()
+    {
+        SoundManagerScript.PlaySound("maxDeath");
+        GameController.current.DeathScreen();
     }
 
 }

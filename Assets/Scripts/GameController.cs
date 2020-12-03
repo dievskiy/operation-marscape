@@ -8,25 +8,47 @@ using TMPro;
 public class GameController : MonoBehaviour
 {
 
+    public SceneController.SceneType nextLevel;
+
     //Public variables for activating the different menus
 
     public GameObject pauseMenuCanvas;
     public GameObject deathMenuCanvas;
+    public GameObject levelCompleteCanvas;
 
     //Bool variable for configuring wether or not the game is paused
     public static bool gamePaused=false;
 
 
     //private Mineral mineral;
-
+    public int mineralsInLevel;
     public float mineralCount;
     public static GameController current;
 
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI deathScoreText;
+
+    [Header("Victory screen")]
+    public TextMeshProUGUI victoryScoreText;
+    public TextMeshProUGUI mineralsCollectedText;
 
     void Start()
     {
         current = this;
+        mineralsInLevel = GameObject.FindGameObjectsWithTag("Collectable").Length;
+
+        // had some issues where finish level was visible when starting new game
+        // this should fix it
+        //
+        // it disables all the pause, death, and level complete screens on scene load
+        ResetLevel();
+    }
+
+    void ResetLevel()
+    {
+        gamePaused = false;
+        pauseMenuCanvas.SetActive(false);
+        deathMenuCanvas.SetActive(false);
+        levelCompleteCanvas.SetActive(false);
     }
 
     void Update()
@@ -39,7 +61,8 @@ public class GameController : MonoBehaviour
             if (gamePaused)
             {
                 Continue();
-            } else
+            }
+            else
             {
                 Pause();
             }
@@ -50,7 +73,6 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             DeathScreen();
-
         }
 
     }
@@ -62,6 +84,7 @@ public class GameController : MonoBehaviour
         pauseMenuCanvas.SetActive(true);
         Time.timeScale = 0f;
         gamePaused = true;
+        SoundManagerScript.StopMusic();
     }
 
     //Method for deactivating the PauseMenuCanvas and continuing the game
@@ -71,27 +94,44 @@ public class GameController : MonoBehaviour
         pauseMenuCanvas.SetActive(false);
         Time.timeScale = 1f;
         gamePaused = false;
+        SoundManagerScript.ContinueMusic();
     }
 
     //Method for activating Deathscreen
 
-    void DeathScreen()
+    public void DeathScreen()
     {
         if (!gamePaused)
         {
             deathMenuCanvas.SetActive(true);
 
-            scoreText.text = "Score : " + mineralCount.ToString() + " minerals";
+            deathScoreText.text = "Score : " + mineralCount.ToString() + " minerals";
             //scoreText.text = minerals.ToString();
 
             Time.timeScale = 0f;
         }
     }
 
+    public void CompleteLevel()
+    {
+        levelCompleteCanvas.SetActive(true);
+
+        gamePaused = true;
+
+        victoryScoreText.text = "Score : " + mineralCount.ToString() + " minerals";
+        mineralsCollectedText.text = "MINERALS COLLECTED: " + mineralCount.ToString() + "/" + mineralsInLevel.ToString();
+        //scoreText.text = minerals.ToString();
+
+        Time.timeScale = 0f;
+
+        PlayerPrefs.SetString("SavedLevel", "Level2");
+    }
+
     //Method for going back to MainMenu
 
     public void LoadMenu()
     {
+        Continue();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -101,5 +141,10 @@ public class GameController : MonoBehaviour
     {
         Continue();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneController.LoadScene(nextLevel);
     }
 }
