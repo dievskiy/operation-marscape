@@ -41,7 +41,6 @@ public class GameController : MonoBehaviour
         //
         // it disables all the pause, death, and level complete screens on scene load
         ResetLevel();
-
     }
 
     void ResetLevel()
@@ -124,6 +123,8 @@ public class GameController : MonoBehaviour
         //scoreText.text = minerals.ToString();
 
         Time.timeScale = 0f;
+
+        PlayerPrefs.SetString("SavedLevel", "Level2");
     }
 
     //Method for going back to MainMenu
