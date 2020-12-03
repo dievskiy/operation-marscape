@@ -13,6 +13,7 @@ public class CutsceneHandler : MonoBehaviour
         player = GetComponent<VideoPlayer>();
         player.url = System.IO.Path.Combine(Application.streamingAssetsPath, "intro.m4v");
         player.Play();
+        PlayerPrefs.SetString("SavedLevel", "Level1");
     }
 
     // Update is called once per frame
@@ -22,7 +23,6 @@ public class CutsceneHandler : MonoBehaviour
         {
             SceneController.LoadScene(SceneController.SceneType.LEVEL_1);
         }
-
 
 
         if (player.length > 0 && player.time >= player.length - 1)
