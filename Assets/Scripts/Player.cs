@@ -153,8 +153,8 @@ public class Player : MonoBehaviour
         mineral.PickUpMineral();
         Debug.Log(mineral.GetInventory());
         mineralBar.Progress();
-        if(other.tag != "Enemy")
-            Destroy(other.gameObject);
+        // if(other.tag != "Enemy")
+            // Destroy(other.gameObject);
     }
 
 }
