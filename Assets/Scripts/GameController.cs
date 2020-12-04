@@ -32,6 +32,8 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI victoryScoreText;
     public TextMeshProUGUI mineralsCollectedText;
 
+    private bool playerDead;
+
     void Start()
     {
         current = this;
@@ -42,6 +44,7 @@ public class GameController : MonoBehaviour
         //
         // it disables all the pause, death, and level complete screens on scene load
         ResetLevel();
+        playerDead = false;
     }
 
     void ResetLevel()
@@ -55,18 +58,21 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        
+
         //Setting ESC and P-keys to trigger pause screen
 
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P)) 
+        if (!playerDead)
         {
-            if (gamePaused)
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
             {
-                Continue();
-            }
-            else
-            {
-                Pause();
+                if (gamePaused)
+                {
+                    Continue();
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
 
@@ -107,6 +113,7 @@ public class GameController : MonoBehaviour
         {
             deathMenuCanvas.SetActive(true);
             deathScoreText.text = "Score : " + mineralCount.ToString() + " minerals";
+            playerDead = true;
             Time.timeScale = 0f;
         }
     }
