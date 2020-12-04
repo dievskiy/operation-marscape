@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     public Animator animator;
     private Mineral mineral;
     private ProgressBar mineralBar;
-    private HpBar hpBar;
+    private ProgressBar hpBar;
 
     private PlayerModel model = new PlayerModel();
     private float playerMaxHp = 100;
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         mineral = gameObject.AddComponent<Mineral>();
         mineralBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
-        hpBar = GameObject.Find("HpBar").GetComponent<HpBar>();
+        hpBar = GameObject.Find("HpBar").GetComponent<ProgressBar>();
 
         //Configuring player hp text for hpbar text
         playerHpText.text = "Player HP: " + model.GetHp().ToString() + " / 100";
@@ -194,13 +194,13 @@ public class Player : MonoBehaviour
         if (other.tag =="Collectable")
         {
             mineral.PickUpMineral();
-            mineralBar.Progress();
+            mineralBar.MineralProgress();
             SoundManagerScript.PlaySound("mineralCollect");
             Destroy(other.gameObject);
 
             if (model.GetHp() < playerMaxHp)
             {
-                hpBar.Progress();
+                hpBar.HpProgress();
                 model.Heal(25);
             }
         }
@@ -208,9 +208,9 @@ public class Player : MonoBehaviour
         //Collision with enemybullet
         if (other.tag == "EnemyBullet")
         {
-            mineralBar.Regress();
+            mineralBar.MineralRegress();
             mineral.DropMineral();
-            hpBar.Regress();
+            hpBar.HpRegress();
             SoundManagerScript.PlaySound("lazerHit");
             if (model.Damage(25) == 0) Die();
             Destroy(other.gameObject);
@@ -222,11 +222,9 @@ public class Player : MonoBehaviour
             Debug.Log("auts");
             mineral.DropMineral();
             mineral.DropMineral();
-            mineralBar.Regress();
-            mineralBar.Regress();
+            mineralBar.MineralRegressAlien();
             if(model.Damage(50) == 0) Die();
-            hpBar.Regress();
-            hpBar.Regress();
+            hpBar.HpRegressAlien();
             Destroy(other.gameObject);
         }
         
