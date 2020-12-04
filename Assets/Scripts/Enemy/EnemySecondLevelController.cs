@@ -31,17 +31,11 @@ public class EnemySecondLevelController : MonoBehaviour, EnemyLevelController {
     }
 
     void FixedUpdate () {
-        // destroy enemy if it is far from player
-        if (Mathf.Abs (transform.position.x - player.transform.position.x) > livingRange) {
-            Destroy (gameObject);
-        }
-
         if (!isShooting && !model.IsDead ()) {
             Vector3 targetPostition = new Vector3 (player.position.x,
                 this.transform.position.y,
                 this.transform.position.z);
             this.transform.LookAt (targetPostition);
-            // transform.LookAt (player);
         }
 
         target = player.position;

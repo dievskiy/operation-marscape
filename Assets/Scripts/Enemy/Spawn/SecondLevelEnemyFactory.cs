@@ -16,7 +16,6 @@ public class SecondLevelEnemyFactory : MonoBehaviour, EnemyFactory
 
     private void CreateEnemies(GameObject player)
     {
-        Debug.Log(spawnPoints.Length);
         // spawn enemies on predefined spawnObjects in scene
         foreach(GameObject spawn in spawnPoints)
         {
