@@ -222,13 +222,19 @@ public class Player : MonoBehaviour
         //Collision with enemy
         if (other.tag == "Enemy")
         {
-            Debug.Log("auts");
+            var controller = other.gameObject.GetComponent<EnemyLevelController>();
+            if (controller == null || controller.HasDied()) return;
             mineral.DropMineral();
             mineral.DropMineral();
             mineralBar.MineralRegressAlien();
             if(model.Damage(50) == 0) Die();
             hpBar.HpRegressAlien();
             Destroy(other.gameObject);
+        }
+
+        if(other.tag == "Rock")
+        {
+            Die();
         }
         
         playerHpText.text = "Player HP: " + model.GetHp().ToString() + " / 100";

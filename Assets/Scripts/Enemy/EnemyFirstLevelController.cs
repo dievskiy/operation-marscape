@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using static EnemyModel;
 
-public class EnemyFirstLevelController : MonoBehaviour
+public class EnemyFirstLevelController : MonoBehaviour, EnemyLevelController
 {
     private EnemyModel model;
     public GameObject bullet;
     private float lastShoot;
     private float shootFrequency = 1f;
     private Animator anim;
-    private bool isDying = false;
 
     private Vector3 target;
     private Rigidbody rigidbody;
@@ -20,7 +19,7 @@ public class EnemyFirstLevelController : MonoBehaviour
     public float shootingRange = 10f;
     // this is minimum position diff, whn enemy "activates" (starts moving)
     public float movingRange = 20f;
-
+    private const float PLAYER_ATTACK_VALUE = 25f;
     float elapsed = 0f;
 
     void Start()
@@ -37,8 +36,13 @@ public class EnemyFirstLevelController : MonoBehaviour
         {
             return;
         }
-
-        transform.LookAt(player);
+        if(!model.IsDead())
+        {
+            Vector3 targetPostition = new Vector3 (player.position.x,
+                transform.position.y,
+                transform.position.z);
+            transform.LookAt(targetPostition);
+        }
 
         target = player.position;
         // when enemy is in shooting range, stop moving and start shooting
@@ -64,7 +68,7 @@ public class EnemyFirstLevelController : MonoBehaviour
     void Update()
     {
         // approach player if its far away
-        if(isNearPlayer && !isDying)
+        if(isNearPlayer && !model.IsDead())
         {
             if(Time.time - shootFrequency > lastShoot)
             {
@@ -97,7 +101,7 @@ public class EnemyFirstLevelController : MonoBehaviour
     private IEnumerator StopAnim()
     {
         yield return new WaitForSeconds(0.5f);
-        if(!isDying)
+        if(!model.IsDead())
         {
             anim.SetBool("isShooting", false);
         }
@@ -120,12 +124,19 @@ public class EnemyFirstLevelController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // should be tag comparison
-        if(!isDying && other.gameObject.name.ToLower().Contains("bullet") && other.tag != "EnemyBullet")
-        {
-            isDying = true;
+        if(!model.IsDead() && other.gameObject.name.ToLower().Contains("bullet") && other.tag != "EnemyBullet")
+        {   
+            if(model.Attack(PLAYER_ATTACK_VALUE) == 1) return;
             anim.SetTrigger("Die");
             StartCoroutine(Die());
         }
         
+    }
+    public bool HasDied () {
+        return model.IsDead();
+    }
+
+    public float GetDamage () {
+        return model.GetDamage();
     }
 }

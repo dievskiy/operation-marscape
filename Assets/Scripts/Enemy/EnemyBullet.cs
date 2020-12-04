@@ -30,8 +30,7 @@ public class EnemyBullet : MonoBehaviour
 
 
     void OnTriggerEnter(Collider other)
-    {
-        if (other.tag != "Enemy")
+    {   if(other.tag != "Enemy")
             Destroy(gameObject);
     }
 }
