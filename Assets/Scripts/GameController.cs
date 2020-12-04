@@ -128,7 +128,7 @@ public class GameController : MonoBehaviour
         victoryScoreText.text = "SCORE: " + mineralCount.ToString() + " MINERALS";
         mineralsCollectedText.text = "MINERALS COLLECTED: " + totalCollectedMinerals.ToString() + "/" + mineralsInLevel.ToString();
         Time.timeScale = 0f;
-        PlayerPrefs.SetString("SavedLevel", "Level2");
+        PlayerPrefs.SetString("SavedLevel", "Level_2");
     }
 
     //Method for going back to MainMenu

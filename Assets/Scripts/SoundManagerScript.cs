@@ -59,7 +59,7 @@ public class SoundManagerScript : MonoBehaviour
             PlaySound("mainMenu");
         }
 
-        if ((scene == "TestScene_1" || scene == "Level1") && !audioSrc.isPlaying && !musicPaused)
+        if ((scene == "Level1" || scene == "Level_2") && !audioSrc.isPlaying && !musicPaused)
         {
             PlaySound("theme01");
         }
