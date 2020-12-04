@@ -5,20 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class SoundManagerScript : MonoBehaviour
 {
+    //AudioClip variables for different sounds of the game
     public static AudioClip mainMenuTheme, levelOneTheme,
         lazerGunSound, alienGunSound, lazerHitSound, mineralPickupSound, jumpSound,
         maxStep1, maxStep2, maxStep3, maxDeath,
         alienStep1, alienStep2, alienStep3, alienDeath;
 
+    //Variable for AudioSource
     static AudioSource audioSrc;
-    string levelClip = "theme01";
 
-
+    //Bool variable for pausing the music of the game
     public static bool musicPaused=false;
 
-    // Start is called before the first frame update
     void Start()
     {
+
+        //Setting the AudioClip variables to right soundfiles from Resources
         mainMenuTheme = Resources.Load<AudioClip>("Mainmenu_theme");
         levelOneTheme = Resources.Load<AudioClip>("theme_01");
 
@@ -27,6 +29,7 @@ public class SoundManagerScript : MonoBehaviour
         lazerHitSound = Resources.Load<AudioClip>("lazerHitSound");
 
         mineralPickupSound = Resources.Load<AudioClip>("mineral_collect");
+
         jumpSound = Resources.Load<AudioClip>("jump");
 
         maxStep1 = Resources.Load<AudioClip>("maxStep1");
@@ -39,16 +42,18 @@ public class SoundManagerScript : MonoBehaviour
         alienStep3 = Resources.Load<AudioClip>("alienStep3");
         alienDeath = Resources.Load<AudioClip>("alien_growl");
 
+        //Setting the AudioSource variable to AudioSource Component
         audioSrc = GetComponent<AudioSource>();
 
-}
+    }
 
-    // Update is called once per frame
     void Update()
     {
-      
+        //Using SceneManager to configure which scene is active
         string scene = SceneManager.GetActiveScene().name;
 
+
+        //Setting the right music for each level
         if (scene == "MainMenu" && !audioSrc.isPlaying)
         {
             PlaySound("mainMenu");
@@ -59,12 +64,15 @@ public class SoundManagerScript : MonoBehaviour
             PlaySound("theme01");
         }
 
+        //Pauses AudioSource if musicPaused is set to true
         if (musicPaused)
         {
             audioSrc.Stop();
         }
     }
 
+    //Public method for Playing different sounds of the game
+    //the string clip is given to switch-clause and volumes are condigured here
     public static void PlaySound (string clip)
     {
         switch (clip)
@@ -123,15 +131,14 @@ public class SoundManagerScript : MonoBehaviour
              }
         }
 
+    //Methods for configuring the musicPaused bool
     public static void StopMusic()
     {
-        //audioSrc.Pause();
         musicPaused = true;
     }
 
     public static void ContinueMusic()
     {
         musicPaused = false;
-        //audioSrc.Play();
     }
 }

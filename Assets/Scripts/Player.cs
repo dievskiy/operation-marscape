@@ -7,20 +7,23 @@ using static PlayerModel;
 
 public class Player : MonoBehaviour
 {
-
-    public float speed;
+    //Variables for configuring player movement
+   
     public float gravity = -9.81f;
+  
     public float jumpSpeed;
     public float accRate = 2.0f;
     public float decRate = -450f;
-    float currentSpeed = 0.0f;
-    float minSpeed = 0.0f;
-    float boostSpeed;
+    public float currentSpeed = 0.0f;
+    public float maxSpeed;
+    public float minSpeed = 0.0f;
+    private float boostSpeed;
 
     public GameObject bullet;
    
     private CharacterController characterController;
     private Vector3 movement = new Vector3();
+    private Vector3 gravityMovement = new Vector3();
 
     private float shootAnimationTimerMax = 0.25f;
     private float shootAnimationTimer = 0.25f;
@@ -28,13 +31,13 @@ public class Player : MonoBehaviour
     public Animator animator;
     private Mineral mineral;
     private ProgressBar mineralBar;
-    private HpBar hpBar;
+    private ProgressBar hpBar;
 
     private PlayerModel model = new PlayerModel();
     private float playerMaxHp = 100;
     public TextMeshProUGUI playerHpText;
 
-    float elapsed = 0f;
+    private float elapsed = 0f;
 
     enum PlayerAnimationState
     {
@@ -45,43 +48,49 @@ public class Player : MonoBehaviour
 
     private PlayerAnimationState animationState = PlayerAnimationState.RUN;
 
-     // Start is called before the first frame update
-       void Start()
+    void Start()
     {
+        //Setting variables for right components 
         characterController = GetComponent<CharacterController>();
         mineral = gameObject.AddComponent<Mineral>();
         mineralBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
-        hpBar = GameObject.Find("HpBar").GetComponent<HpBar>();
+        hpBar = GameObject.Find("HpBar").GetComponent<ProgressBar>();
 
+        //Configuring player hp text for hpbar text
         playerHpText.text = "Player HP: " + model.GetHp().ToString() + " / 100";
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //Sets the player to current speed
         movement.x = currentSpeed * Time.deltaTime;
 
-        if (currentSpeed < speed)
+        //Accelerates current speed if player speed hasn't been achieved
+        if (currentSpeed < maxSpeed)
         {
-            currentSpeed = currentSpeed + (accRate * Time.deltaTime);
+            currentSpeed += (accRate = Time.deltaTime);
         }
-
+        
+        //Moves the player slightly to left on left arrow key
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            movement += -transform.right * (currentSpeed / 0.8f) * Time.deltaTime;         
+            movement += -transform.right * (currentSpeed / 0.8f * Time.deltaTime);         
         }
 
+        //Boosts speed to right on right arrow key
         if (Input.GetKey(KeyCode.RightArrow))
         {
             boostSpeed = currentSpeed * 1.5f;
-            movement += transform.right * boostSpeed * Time.deltaTime;
+            movement += transform.right * ( boostSpeed * Time.deltaTime);
         }
-
-        if (Input.GetKeyDown(KeyCode.X))
+        
+        //Shoots on X
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             Shoot();
         }
 
+        //Calls RunSound method every 0.25 seconds, if player is on the ground
         if (characterController.isGrounded)
         {
             elapsed += Time.deltaTime;
@@ -96,29 +105,31 @@ public class Player : MonoBehaviour
                 animationState = PlayerAnimationState.RUN;
             }
 
-            movement.y = -0.1f;
+            //Sets player to ground
+            gravityMovement.y = -0.01f;
 
+            //Jumps on space and arrow up, animates jump and plays jumpsound
             if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
             {
-                movement.y = jumpSpeed;
-
+                gravityMovement.y = jumpSpeed;
                 animationState = PlayerAnimationState.JUMP;
-
                 SoundManagerScript.PlaySound("jump");
             }
 
+            //Decelerates the player on key down
             if (Input.GetKey(KeyCode.DownArrow))
             {
                 currentSpeed = currentSpeed + (decRate * Time.deltaTime);
             }
         }
 
-        currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, speed);
+        //Sets the max limit to speed
+        currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
 
-        movement.y += gravity * Time.deltaTime;
+        gravityMovement.y -= gravity * Time.deltaTime;
 
-        characterController.Move(movement * Time.deltaTime);
-
+        characterController.Move(movement);
+        characterController.Move(gravityMovement * Time.deltaTime);
         
         // handle shooting animation
         if (shootAnimationTimer < shootAnimationTimerMax && animationState != PlayerAnimationState.SHOOT)
@@ -172,50 +183,52 @@ public class Player : MonoBehaviour
         SoundManagerScript.PlaySound("lazerGun");
     }
 
+    //Generates an random int between 1-3 for selecting random stepsound
     void RunSound()
     {
         int stepSoundRandom = Random.Range(1, 4);
         SoundManagerScript.PlaySound("maxStep" + stepSoundRandom.ToString());
     }
 
+    //Handles collision with different game objects
     private void OnTriggerEnter(Collider other)
     {
+        //Collision with mineral
         if (other.tag =="Collectable")
         {
             mineral.PickUpMineral();
-            mineralBar.Progress();
+            mineralBar.MineralProgress();
             SoundManagerScript.PlaySound("mineralCollect");
             Destroy(other.gameObject);
 
             if (model.GetHp() < playerMaxHp)
             {
-                hpBar.Progress();
+                hpBar.HpProgress();
                 model.Heal(25);
             }
         }
 
+        //Collision with enemybullet
         if (other.tag == "EnemyBullet")
         {
-            mineralBar.Regress();
+            mineralBar.MineralRegress();
             mineral.DropMineral();
-            hpBar.Regress();
+            hpBar.HpRegress();
             SoundManagerScript.PlaySound("lazerHit");
             if (model.Damage(25) == 0) Die();
             Destroy(other.gameObject);
         }
 
+        //Collision with enemy
         if (other.tag == "Enemy")
         {
             var controller = other.gameObject.GetComponent<EnemyLevelController>();
             if (controller == null || controller.HasDied()) return;
             mineral.DropMineral();
             mineral.DropMineral();
-            mineralBar.Regress();
-            mineralBar.Regress();
-            var damage = controller.GetDamage();
-            if(model.Damage(damage) == 0) Die();
-            hpBar.Regress();
-            hpBar.Regress();
+            mineralBar.MineralRegressAlien();
+            if(model.Damage(50) == 0) Die();
+            hpBar.HpRegressAlien();
             Destroy(other.gameObject);
         }
 
@@ -228,6 +241,7 @@ public class Player : MonoBehaviour
 
     }
 
+    //Method for player's death, activates deathscreen and plays deathsound
     public void Die()
     {
         SoundManagerScript.PlaySound("maxDeath");
