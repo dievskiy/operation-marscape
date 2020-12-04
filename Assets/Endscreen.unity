@@ -182,8 +182,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Thank you for playing
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1fcc69ab864646379b74dc97a71aae7, type: 2}
+  m_sharedMaterial: {fileID: 968253553060014083, guid: c1fcc69ab864646379b74dc97a71aae7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -320,8 +320,8 @@ MonoBehaviour:
     Santeri Sorjonen, Ruslan Potekhin
     & Aleksi Kosonen'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1fcc69ab864646379b74dc97a71aae7, type: 2}
+  m_sharedMaterial: {fileID: 968253553060014083, guid: c1fcc69ab864646379b74dc97a71aae7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -981,8 +981,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: MENU
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1fcc69ab864646379b74dc97a71aae7, type: 2}
+  m_sharedMaterial: {fileID: 968253553060014083, guid: c1fcc69ab864646379b74dc97a71aae7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1247,8 +1247,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'MISSION: MARSCAPE'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1fcc69ab864646379b74dc97a71aae7, type: 2}
+  m_sharedMaterial: {fileID: 968253553060014083, guid: c1fcc69ab864646379b74dc97a71aae7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
