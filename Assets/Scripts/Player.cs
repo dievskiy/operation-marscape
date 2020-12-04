@@ -206,12 +206,14 @@ public class Player : MonoBehaviour
 
         if (other.tag == "Enemy")
         {
-            Debug.Log("auts");
+            var controller = other.gameObject.GetComponent<EnemyLevelController>();
+            if (controller == null || controller.HasDied()) return;
             mineral.DropMineral();
             mineral.DropMineral();
             mineralBar.Regress();
             mineralBar.Regress();
-            if(model.Damage(50) == 0) Die();
+            var damage = controller.GetDamage();
+            if(model.Damage(damage) == 0) Die();
             hpBar.Regress();
             hpBar.Regress();
             Destroy(other.gameObject);

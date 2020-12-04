@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFirstLevelModel : EnemyModel
-{
-     public EnemyFirstLevelModel()
-     {
-        hp = 100f;
-        attackValue = 20f;
-     }
+public class EnemyFirstLevelModel : EnemyModel {
 
-    override public void AttackPlayer()
-    {
-        // todo
+    public EnemyFirstLevelModel () {
+        hp = 49f;
+        attackValue = 50f;
     }
+
 }

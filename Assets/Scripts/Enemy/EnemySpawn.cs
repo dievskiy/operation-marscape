@@ -19,6 +19,9 @@ public class EnemySpawn : MonoBehaviour
             case 1: 
                 factory = gameObject.AddComponent<FirstLevelEnemyFactory>();
                 break;
+            case 2:
+                factory = gameObject.AddComponent<SecondLevelEnemyFactory>();
+                break;
             default:
                 break;
         }
