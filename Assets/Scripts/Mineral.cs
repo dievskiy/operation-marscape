@@ -41,6 +41,7 @@ public class Mineral : MonoBehaviour
         {
             Inventory += Value;
             GameController.current.mineralCount++;
+            GameController.current.totalCollectedMinerals++;
         }
 
     }

@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     //private Mineral mineral;
     public int mineralsInLevel;
     public float mineralCount;
+    public float totalCollectedMinerals = 0;
     public static GameController current;
 
     //Variable for TextMeshPro for setting player score to DeathScreen
@@ -45,6 +46,7 @@ public class GameController : MonoBehaviour
 
     void ResetLevel()
     {
+        totalCollectedMinerals = 0;
         gamePaused = false;
         pauseMenuCanvas.SetActive(false);
         deathMenuCanvas.SetActive(false);
@@ -116,8 +118,8 @@ public class GameController : MonoBehaviour
     {
         levelCompleteCanvas.SetActive(true);
         gamePaused = true;
-        victoryScoreText.text = "Score : " + mineralCount.ToString() + " minerals";
-        mineralsCollectedText.text = "MINERALS COLLECTED: " + mineralCount.ToString() + "/" + mineralsInLevel.ToString();
+        victoryScoreText.text = "SCORE: " + mineralCount.ToString() + " MINERALS";
+        mineralsCollectedText.text = "MINERALS COLLECTED: " + totalCollectedMinerals.ToString() + "/" + mineralsInLevel.ToString();
         Time.timeScale = 0f;
         PlayerPrefs.SetString("SavedLevel", "Level2");
     }
