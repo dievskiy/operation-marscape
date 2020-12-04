@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class Mineral : MonoBehaviour
 {
+    //Variables for congiguring mineral
     private float Value=25.0f;
     private float Inventory=0f;
     private float MaxValue = 100f;
 
     public GameObject visual;
     private float timer;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -38,6 +33,8 @@ public class Mineral : MonoBehaviour
         }
     }
 
+    //If there inventory isn't full, value is added to it
+    //Also adds one to mineralCount which is used for displaying score
     public void PickUpMineral()
     {
         if (Inventory < MaxValue)
@@ -48,6 +45,7 @@ public class Mineral : MonoBehaviour
 
     }
 
+    //Drops mineral if player collides with enemy or enemybullet
     public void DropMineral() {
         if (Inventory > 0)
         {
@@ -59,16 +57,19 @@ public class Mineral : MonoBehaviour
         }
     }
 
+    //Returns inventory
     public float GetInventory()
     {
         return Inventory;
     }
 
+    //Saves score to playerprefs
     public void SaveScore()
     {
         PlayerPrefs.SetFloat("Inventory", Inventory);
     }
 
+    //Gets inventory from PlayerPrefs
     public void FetchInventory()
     {
         Inventory = PlayerPrefs.GetFloat("Inventory");
