@@ -36,8 +36,13 @@ public class EnemyFirstLevelController : MonoBehaviour, EnemyLevelController
         {
             return;
         }
-
-        transform.LookAt(player);
+        if(!model.IsDead())
+        {
+            Vector3 targetPostition = new Vector3 (player.position.x,
+                transform.position.y,
+                transform.position.z);
+            transform.LookAt(targetPostition);
+        }
 
         target = player.position;
         // when enemy is in shooting range, stop moving and start shooting
