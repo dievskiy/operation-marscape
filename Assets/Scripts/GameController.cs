@@ -51,6 +51,7 @@ public class GameController : MonoBehaviour
     {
         totalCollectedMinerals = 0;
         gamePaused = false;
+        Time.timeScale = 1f;
         pauseMenuCanvas.SetActive(false);
         deathMenuCanvas.SetActive(false);
         levelCompleteCanvas.SetActive(false);
@@ -151,6 +152,8 @@ public class GameController : MonoBehaviour
     //Loads next level
     public void LoadNextLevel()
     {
+        gamePaused = false;
+        Time.timeScale = 1f;
         SceneController.LoadScene(nextLevel);
     }
 }

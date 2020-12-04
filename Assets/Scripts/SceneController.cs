@@ -21,7 +21,7 @@ public class SceneController : MonoBehaviour
             case SceneType.MAIN_MENU: SceneManager.LoadScene("MainMenu", LoadSceneMode.Single); break; // no level 2 yet, use main menu for testing
             case SceneType.CUTSCENE: SceneManager.LoadScene("IntroCutscene", LoadSceneMode.Single); break;
             case SceneType.LEVEL_1: SceneManager.LoadScene("Level1", LoadSceneMode.Single); break;
-            case SceneType.LEVEL_2: SceneManager.LoadScene("MainMenu", LoadSceneMode.Single); break; // no level 2 yet, use main menu for testing
+            case SceneType.LEVEL_2: SceneManager.LoadScene("Level_2", LoadSceneMode.Single); break; // no level 2 yet, use main menu for testing
             case SceneType.OUTRO: SceneManager.LoadScene("OutroCutscene", LoadSceneMode.Single); break;
             case SceneType.END_SCREEN: SceneManager.LoadScene("Endscreen", LoadSceneMode.Single); break;
             default: break;
