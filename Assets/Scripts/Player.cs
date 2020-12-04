@@ -8,19 +8,22 @@ using static PlayerModel;
 public class Player : MonoBehaviour
 {
     //Variables for configuring player movement
-    public float speed;
+   
     public float gravity = -9.81f;
+  
     public float jumpSpeed;
     public float accRate = 2.0f;
     public float decRate = -450f;
-    private float currentSpeed = 0.0f;
-    private float minSpeed = 0.0f;
+    public float currentSpeed = 0.0f;
+    public float maxSpeed;
+    public float minSpeed = 0.0f;
     private float boostSpeed;
 
     public GameObject bullet;
    
     private CharacterController characterController;
     private Vector3 movement = new Vector3();
+    private Vector3 gravityMovement = new Vector3();
 
     private float shootAnimationTimerMax = 0.25f;
     private float shootAnimationTimer = 0.25f;
@@ -45,7 +48,7 @@ public class Player : MonoBehaviour
 
     private PlayerAnimationState animationState = PlayerAnimationState.RUN;
 
-       void Start()
+    void Start()
     {
         //Setting variables for right components 
         characterController = GetComponent<CharacterController>();
@@ -63,26 +66,26 @@ public class Player : MonoBehaviour
         movement.x = currentSpeed * Time.deltaTime;
 
         //Accelerates current speed if player speed hasn't been achieved
-        if (currentSpeed < speed)
+        if (currentSpeed < maxSpeed)
         {
-            currentSpeed = currentSpeed + (accRate * Time.deltaTime);
+            currentSpeed += (accRate = Time.deltaTime);
         }
-
+        
         //Moves the player slightly to left on left arrow key
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            movement += -transform.right * (currentSpeed / 0.8f) * Time.deltaTime;         
+            movement += -transform.right * (currentSpeed / 0.8f * Time.deltaTime);         
         }
 
         //Boosts speed to right on right arrow key
         if (Input.GetKey(KeyCode.RightArrow))
         {
             boostSpeed = currentSpeed * 1.5f;
-            movement += transform.right * boostSpeed * Time.deltaTime;
+            movement += transform.right * ( boostSpeed * Time.deltaTime);
         }
-
+        
         //Shoots on X
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             Shoot();
         }
@@ -103,12 +106,12 @@ public class Player : MonoBehaviour
             }
 
             //Sets player to ground
-            movement.y = -0.1f;
+            gravityMovement.y = -0.01f;
 
             //Jumps on space and arrow up, animates jump and plays jumpsound
             if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
             {
-                movement.y = jumpSpeed;
+                gravityMovement.y = jumpSpeed;
                 animationState = PlayerAnimationState.JUMP;
                 SoundManagerScript.PlaySound("jump");
             }
@@ -121,12 +124,12 @@ public class Player : MonoBehaviour
         }
 
         //Sets the max limit to speed
-        currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, speed);
+        currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
 
-        movement.y += gravity * Time.deltaTime;
+        gravityMovement.y -= gravity * Time.deltaTime;
 
-        characterController.Move(movement * Time.deltaTime);
-
+        characterController.Move(movement);
+        characterController.Move(gravityMovement * Time.deltaTime);
         
         // handle shooting animation
         if (shootAnimationTimer < shootAnimationTimerMax && animationState != PlayerAnimationState.SHOOT)

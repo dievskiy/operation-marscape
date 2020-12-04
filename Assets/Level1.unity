@@ -3509,7 +3509,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.0001
+  m_MinMoveDistance: 0.00001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &537119207
 MonoBehaviour:
@@ -3523,11 +3523,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a774af0876dcd046bf733c1b0806c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1500
-  gravity: -15
+  gravity: 15
   jumpSpeed: 10
-  accRate: 250
-  decRate: -450
+  accRate: 0.5
+  decRate: 0.3
+  currentSpeed: 0
+  maxSpeed: 4
+  minSpeed: 0
   bullet: {fileID: 1322877804626832803, guid: 5aef9d1426fecb84c97c3251ffe8d4b4, type: 3}
   animator: {fileID: 1556175956}
   playerHpText: {fileID: 1945251699}
@@ -4023,7 +4025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &668805780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5221,7 +5223,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-9758
+  m_Name: pb_Mesh-2032
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5484,7 +5486,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-9664
+  m_Name: pb_Mesh-1938
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
