@@ -19,12 +19,12 @@ public class GameController : MonoBehaviour
     //Bool variable for configuring wether or not the game is paused
     public static bool gamePaused=false;
 
-
     //private Mineral mineral;
     public int mineralsInLevel;
     public float mineralCount;
     public static GameController current;
 
+    //Variable for TextMeshPro for setting player score to DeathScreen
     public TextMeshProUGUI deathScoreText;
 
     [Header("Victory screen")]
@@ -97,33 +97,28 @@ public class GameController : MonoBehaviour
         SoundManagerScript.ContinueMusic();
     }
 
-    //Method for activating Deathscreen
+    //Method for activating Deathscreen if game isn't paused and setting the Score
 
     public void DeathScreen()
     {
         if (!gamePaused)
         {
             deathMenuCanvas.SetActive(true);
-
             deathScoreText.text = "Score : " + mineralCount.ToString() + " minerals";
-            //scoreText.text = minerals.ToString();
-
             Time.timeScale = 0f;
         }
     }
 
+    //Method for activating LevelCompleteCanvas and setting scores to it
+    //Also saves the second level to PlayerPrefs if the player wants to continue playing later
+
     public void CompleteLevel()
     {
         levelCompleteCanvas.SetActive(true);
-
         gamePaused = true;
-
         victoryScoreText.text = "Score : " + mineralCount.ToString() + " minerals";
         mineralsCollectedText.text = "MINERALS COLLECTED: " + mineralCount.ToString() + "/" + mineralsInLevel.ToString();
-        //scoreText.text = minerals.ToString();
-
         Time.timeScale = 0f;
-
         PlayerPrefs.SetString("SavedLevel", "Level2");
     }
 
@@ -131,6 +126,7 @@ public class GameController : MonoBehaviour
 
     public void LoadMenu()
     {
+        Continue();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -142,6 +138,8 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+
+    //Loads next level
     public void LoadNextLevel()
     {
         SceneController.LoadScene(nextLevel);

@@ -7,15 +7,15 @@ using static PlayerModel;
 
 public class Player : MonoBehaviour
 {
-
+    //Variables for configuring player movement
     public float speed;
     public float gravity = -9.81f;
     public float jumpSpeed;
     public float accRate = 2.0f;
     public float decRate = -450f;
-    float currentSpeed = 0.0f;
-    float minSpeed = 0.0f;
-    float boostSpeed;
+    private float currentSpeed = 0.0f;
+    private float minSpeed = 0.0f;
+    private float boostSpeed;
 
     public GameObject bullet;
    
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     private float playerMaxHp = 100;
     public TextMeshProUGUI playerHpText;
 
-    float elapsed = 0f;
+    private float elapsed = 0f;
 
     enum PlayerAnimationState
     {
@@ -45,43 +45,49 @@ public class Player : MonoBehaviour
 
     private PlayerAnimationState animationState = PlayerAnimationState.RUN;
 
-     // Start is called before the first frame update
        void Start()
     {
+        //Setting variables for right components 
         characterController = GetComponent<CharacterController>();
         mineral = gameObject.AddComponent<Mineral>();
         mineralBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
         hpBar = GameObject.Find("HpBar").GetComponent<HpBar>();
 
+        //Configuring player hp text for hpbar text
         playerHpText.text = "Player HP: " + model.GetHp().ToString() + " / 100";
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //Sets the player to current speed
         movement.x = currentSpeed * Time.deltaTime;
 
+        //Accelerates current speed if player speed hasn't been achieved
         if (currentSpeed < speed)
         {
             currentSpeed = currentSpeed + (accRate * Time.deltaTime);
         }
 
+        //Moves the player slightly to left on left arrow key
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             movement += -transform.right * (currentSpeed / 0.8f) * Time.deltaTime;         
         }
 
+        //Boosts speed to right on right arrow key
         if (Input.GetKey(KeyCode.RightArrow))
         {
             boostSpeed = currentSpeed * 1.5f;
             movement += transform.right * boostSpeed * Time.deltaTime;
         }
 
+        //Shoots on X
         if (Input.GetKeyDown(KeyCode.X))
         {
             Shoot();
         }
 
+        //Calls RunSound method every 0.25 seconds, if player is on the ground
         if (characterController.isGrounded)
         {
             elapsed += Time.deltaTime;
@@ -96,23 +102,25 @@ public class Player : MonoBehaviour
                 animationState = PlayerAnimationState.RUN;
             }
 
+            //Sets player to ground
             movement.y = -0.1f;
 
+            //Jumps on space and arrow up, animates jump and plays jumpsound
             if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
             {
                 movement.y = jumpSpeed;
-
                 animationState = PlayerAnimationState.JUMP;
-
                 SoundManagerScript.PlaySound("jump");
             }
 
+            //Decelerates the player on key down
             if (Input.GetKey(KeyCode.DownArrow))
             {
                 currentSpeed = currentSpeed + (decRate * Time.deltaTime);
             }
         }
 
+        //Sets the max limit to speed
         currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, speed);
 
         movement.y += gravity * Time.deltaTime;
@@ -172,14 +180,17 @@ public class Player : MonoBehaviour
         SoundManagerScript.PlaySound("lazerGun");
     }
 
+    //Generates an random int between 1-3 for selecting random stepsound
     void RunSound()
     {
         int stepSoundRandom = Random.Range(1, 4);
         SoundManagerScript.PlaySound("maxStep" + stepSoundRandom.ToString());
     }
 
+    //Handles collision with different game objects
     private void OnTriggerEnter(Collider other)
     {
+        //Collision with mineral
         if (other.tag =="Collectable")
         {
             mineral.PickUpMineral();
@@ -194,6 +205,7 @@ public class Player : MonoBehaviour
             }
         }
 
+        //Collision with enemybullet
         if (other.tag == "EnemyBullet")
         {
             mineralBar.Regress();
@@ -204,6 +216,7 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
         }
 
+        //Collision with enemy
         if (other.tag == "Enemy")
         {
             Debug.Log("auts");
@@ -221,6 +234,7 @@ public class Player : MonoBehaviour
 
     }
 
+    //Method for player's death, activates deathscreen and plays deathsound
     public void Die()
     {
         SoundManagerScript.PlaySound("maxDeath");
