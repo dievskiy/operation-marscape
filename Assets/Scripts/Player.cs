@@ -218,6 +218,11 @@ public class Player : MonoBehaviour
             hpBar.Regress();
             Destroy(other.gameObject);
         }
+
+        if(other.tag == "Rock")
+        {
+            Die();
+        }
         
         playerHpText.text = "Player HP: " + model.GetHp().ToString() + " / 100";
 
