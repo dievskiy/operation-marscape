@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI mineralsCollectedText;
 
     private bool playerDead;
+    private bool isComplete = false;
 
     void Start()
     {
@@ -62,7 +63,7 @@ public class GameController : MonoBehaviour
 
         //Setting ESC and P-keys to trigger pause screen
 
-        if (!playerDead)
+        if (!playerDead && !isComplete)
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
             {
@@ -124,6 +125,7 @@ public class GameController : MonoBehaviour
 
     public void CompleteLevel()
     {
+        isComplete = true;
         levelCompleteCanvas.SetActive(true);
         gamePaused = true;
         victoryScoreText.text = "SCORE: " + mineralCount.ToString() + " MINERALS";
