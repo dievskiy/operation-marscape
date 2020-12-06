@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// this class handles enemy spawning
 public class EnemySpawn : MonoBehaviour
 {
     private GameObject player;

@@ -31,7 +31,8 @@ public class EnemyFirstLevelController : MonoBehaviour, EnemyLevelController
     }
 
     void FixedUpdate()
-    {
+    {   
+        // if enemy is not in moving range, return
         if(Mathf.Abs(transform.position.x - player.transform.position.x) > movingRange)
         {
             return;
@@ -67,7 +68,6 @@ public class EnemyFirstLevelController : MonoBehaviour, EnemyLevelController
 
     void Update()
     {
-        // approach player if its far away
         if(isNearPlayer && !model.IsDead())
         {
             if(Time.time - shootFrequency > lastShoot)

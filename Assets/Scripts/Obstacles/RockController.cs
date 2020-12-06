@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// this class controls rocks falling 
 public class RockController : MonoBehaviour {
+
     private GameObject[] rocks;
+    // list of bools corresponding to each rock in the same order
+    // if rock has been fallen - fallen[i] will be true 
     private List<bool> fallen = new List<bool>();
     private const float fallRange = 17f;
 

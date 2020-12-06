@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class EnemyModel {
     protected float hp;
+    // this is damage that players gets when touching an enemy 
     protected float attackValue;
     protected bool isDead;
 
