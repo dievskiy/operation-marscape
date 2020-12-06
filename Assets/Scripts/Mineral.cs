@@ -63,16 +63,4 @@ public class Mineral : MonoBehaviour
     {
         return Inventory;
     }
-
-    //Saves score to playerprefs
-    public void SaveScore()
-    {
-        PlayerPrefs.SetFloat("Inventory", Inventory);
-    }
-
-    //Gets inventory from PlayerPrefs
-    public void FetchInventory()
-    {
-        Inventory = PlayerPrefs.GetFloat("Inventory");
-    }
 }
