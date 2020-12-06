@@ -132,10 +132,13 @@ public class Player : MonoBehaviour
         characterController.Move(gravityMovement * Time.deltaTime);
         
         // handle shooting animation
+        // if player is in running animation, and has pressed the shoot key
         if (shootAnimationTimer < shootAnimationTimerMax && animationState != PlayerAnimationState.SHOOT)
         {
             animationState = PlayerAnimationState.SHOOT;
         }
+        // else if, timer has passed since shoot, and player is in shoot animation
+        // reset to running/jumping
         else if (shootAnimationTimer >= shootAnimationTimerMax && animationState == PlayerAnimationState.SHOOT)
         {
             ResetAnimation();
@@ -159,6 +162,7 @@ public class Player : MonoBehaviour
        
     }
 
+    // reset animation to running or jumping, based on the state of the controller
     void ResetAnimation()
     {
         if (characterController.isGrounded)
@@ -171,11 +175,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    // create projectile from the player, for defeating aliens
     void Shoot()
     {
         shootAnimationTimer = 0;
         animator.Play("shoot", -1, 0);
 
+        // spawn the bullet a bit in front of the player model, and up
         Vector3 bulletOrigin = transform.position + (transform.right * 1.25f) + (transform.up * 0.6f);
 
         Instantiate(bullet, bulletOrigin, transform.rotation);

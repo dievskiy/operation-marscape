@@ -20,6 +20,9 @@ public class CutsceneHandler : MonoBehaviour
     {
         player = GetComponent<VideoPlayer>();
 
+        // need to load the video using StreamingAssets
+        // because webGL doesnt support direct video playback
+        // for some reason.
         if (currentCutscene == Cutscenes.INTRO)
             player.url = System.IO.Path.Combine(Application.streamingAssetsPath, "intro.m4v");
 
@@ -33,6 +36,7 @@ public class CutsceneHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if player pressed space or escape, change scene
         if ( (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)))
         {
             if (currentCutscene == Cutscenes.INTRO)
@@ -42,7 +46,8 @@ public class CutsceneHandler : MonoBehaviour
                 SceneController.LoadScene(SceneController.SceneType.END_SCREEN);
         }
 
-
+        // or if the cutscene runs longer than the actual lenght of the video, change scene
+        // -1 to the length here, because the time wasnt equal to the actual length of the video
         if (player.length > 0 && player.time >= player.length - 1)
         {
             if (currentCutscene == Cutscenes.INTRO)

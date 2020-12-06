@@ -77,14 +77,6 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-
-        //Setting L-key to trigger Deathscreen (placeholder)
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            DeathScreen();
-        }
-
     }
 
     //Method for pausing the game and activating the PauseMenuCanvas
@@ -122,7 +114,6 @@ public class GameController : MonoBehaviour
 
     //Method for activating LevelCompleteCanvas and setting scores to it
     //Also saves the second level to PlayerPrefs if the player wants to continue playing later
-
     public void CompleteLevel()
     {
         isComplete = true;
@@ -152,6 +143,7 @@ public class GameController : MonoBehaviour
 
 
     //Loads next level
+    //Attempt to unpause here as well
     public void LoadNextLevel()
     {
         gamePaused = false;

@@ -20,9 +20,11 @@ public class DeathTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // If player enters this trigger
         if (other.gameObject.tag == PLAYER_TAG)
         {
-            Debug.Log("death");
+            // Trigger die function
+            // which shows the death screen
             player.GetComponent<Player>().Die();
         }
     }
