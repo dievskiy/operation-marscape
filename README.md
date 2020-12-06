@@ -1,4 +1,4 @@
-# Operation: Marscape
+# Mission: Marscape
 
 This game is a final result of 15 cr "Game Developement" class in Metropolia UAS. The game was created by team of three students: Santeri, Aleksi and Ruslan. [Here](https://youtu.be/_7uCQKddBpo) is a quick demo of first level. 
 
