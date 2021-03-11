@@ -1,6 +1,6 @@
 # Mission: Marscape
 
-This game is a final result of 15 cr "Game Developement" class in Metropolia UAS. The game was created by team of three students: Santeri, Aleksi and Ruslan. [Here](https://youtu.be/_7uCQKddBpo) is a quick demo of first level. 
+This game is a final result of the 15 cr "Game Development" class in Metropolia UAS. The game was created by a team of three students: Santeri, Aleksi, and Ruslan. [Here](https://youtu.be/_7uCQKddBpo) is a quick demo of the first level. 
 
 
 ## Features
@@ -14,7 +14,7 @@ This game is a final result of 15 cr "Game Developement" class in Metropolia UAS
 
 ## Deployment
 
-The game [is available](http://users.metropolia.fi/~santerhs/mission-marscape/) at metropolia servers. It is deplyed using WebGL technology.
+The game [is available](http://users.metropolia.fi/~santerhs/mission-marscape/) at metropolia servers. It is deployed using WebGL technology.
 
 ## Screenshots
 
